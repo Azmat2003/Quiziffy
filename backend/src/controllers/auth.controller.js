@@ -84,6 +84,8 @@ const login = async (req, res) => {
         // 1. in cookies
         res.cookie("token", token, {
             httpOnly: true, // restrict the access of cookie via JavaScript code
+            secure: true,
+            sameSite: "none"
         });
 
         // 2. inside json
@@ -105,7 +107,11 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        });
 
         return res.status(201).json({
             message: "Logout success",
