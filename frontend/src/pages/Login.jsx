@@ -10,9 +10,10 @@ function Login() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    const {getProfile} = useContext(AuthContext);
+    const { getProfile } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,9 +24,11 @@ function Login() {
         });
         setError("");
         setSuccess("");
+        setLoading(false);
 
         // Login API call
         try {
+            setLoading(true);
             const api = `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`;
             console.log(api);
             const options = {
@@ -61,6 +64,8 @@ function Login() {
             }
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -214,22 +219,34 @@ function Login() {
                         </div>
 
                         {/* ================= ERROR MESSAGE ================= */}
-                        {error && (<FormError error={error}></FormError>)}
+                        {error && <FormError error={error}></FormError>}
 
                         {/* ================= SUCCESS MESSAGE ================= */}
-                        {success && (<FormSuccess success={success}></FormSuccess>)}
+                        {success && (
+                            <FormSuccess success={success}></FormSuccess>
+                        )}
 
                         {/* ================= LOGIN BUTTON ================= */}
                         <button
                             type="submit"
                             onClick={handleSubmit}
-                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
+                            disabled={loading}
+                            className="group/btn mt-2 w-full rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-500 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                         >
                             <span className="flex items-center justify-center gap-2">
-                                Login
-                                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                                    →
-                                </span>
+                                {loading ? (
+                                    <>
+                                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>
+                                        Logging in...
+                                    </>
+                                ) : (
+                                    <>
+                                        Login
+                                        <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
+                                            →
+                                        </span>
+                                    </>
+                                )}
                             </span>
                         </button>
                     </form>
