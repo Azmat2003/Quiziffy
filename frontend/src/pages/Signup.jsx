@@ -20,6 +20,8 @@ function Signup() {
             password,
         });
 
+        console.log("1");
+
         setError("");
         setSuccess("");
 
@@ -48,14 +50,18 @@ function Signup() {
 
             // console.log(api);
             setLoading(true);
+            debugger;
             const res = await fetch(api, options);
+            debugger;
             const data = await res.json();
-
+            
             if (!res.ok) {
+                debugger;
                 throw new Error(data.message);
             }
-
+            
             if (data) {
+                debugger;
                 setSuccess(data.message);
                 console.log(data.message);
                 setName("");
@@ -64,8 +70,10 @@ function Signup() {
                 console.log("Done");
             }
         } catch (err) {
+            debugger;
             setError(err.message);
         } finally {
+            debugger;
             setLoading(false);
         }
     };

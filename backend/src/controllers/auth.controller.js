@@ -29,12 +29,13 @@ const signup = async (req, res) => {
         const db_res = await User.create(newUser);
         // console.log(db_res);
 
-        const to = email;
-        const subject = "Welcome to Quizzify!";
-        const loginLink = process.env.FRONTEND_BASE_URL + "/login";
-        const html = welcomeEmail(name, loginLink);
+        // to check is this the cause of delay in response
+        // const to = email;
+        // const subject = "Welcome to Quizzify!";
+        // const loginLink = process.env.FRONTEND_BASE_URL + "/login";
+        // const html = welcomeEmail(name, loginLink);
 
-        const mail = await sendEmail(to, subject, html);
+        // const mail = await sendEmail(to, subject, html);
 
         // send the response
         res.status(201).json({
