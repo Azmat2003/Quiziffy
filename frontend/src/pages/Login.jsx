@@ -22,6 +22,7 @@ function Login() {
             email,
             password,
         });
+        console.log("Hello running");
         setError("");
         setSuccess("");
         setLoading(false);
